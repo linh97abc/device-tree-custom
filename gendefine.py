@@ -56,6 +56,7 @@ for compat, devs in compat_dict.items():
         if devID not in devIDList: devIDList.append(devID)
 
         genContent +=(f'#define DT_INST_{i}_{compat}_P_devID {devID}\n')
+        genContent +=(f'#define DT_INST_{i}_{compat}_P_name "{devID}"\n')
         for attribue in dev:
             genContent +=(f'#define DT_INST_{i}_{compat}_P_{attribue} {dev[attribue]}\n')
         i += 1
