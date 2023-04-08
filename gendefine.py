@@ -1,19 +1,34 @@
 import configparser
 import hashlib
+import sys
+import os
 
-headerFile = "devicetree_generated.h"
-conf_file = "devicetree.ini"
-conf_overlay_file = "devicetree.conf"
+out_dir = sys.argv[1]
+conf_file = sys.argv[2]
+
+print(f'Generate devicetree:\n  out: {out_dir}\n  conf: {conf_file}')
+
+conf_overlay_file = None
+if len(sys.argv) > 3:
+    conf_overlay_file = sys.argv[3]
+    print(f'  conf_overlay: {conf_overlay_file}')
+
+
+if not os.path.exists(out_dir):
+    os.makedirs(out_dir)
+
+headerFile = os.path.join(out_dir, "devicetree_generated.h")
 
 config = configparser.ConfigParser()
 config.read(conf_file)
 
-config_overlay = configparser.ConfigParser()
-config_overlay.read(conf_overlay_file)
+if conf_overlay_file and os.path.exists(conf_overlay_file):
+    config_overlay = configparser.ConfigParser()
+    config_overlay.read(conf_overlay_file)
 
-for section, val in config.items():
-    if section in config_overlay:
-        val.update(config_overlay[section])
+    for section, val in config.items():
+        if section in config_overlay:
+            val.update(config_overlay[section])
 
 sections = config.sections()
 compat_dict = dict()

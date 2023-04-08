@@ -1,0 +1,6 @@
+#ifndef _KERNEL_VERSION_H_
+#define _KERNEL_VERSION_H_
+
+#define BUILD_VERSION          "@BUILD_VERSION@"
+
+#endif /* _KERNEL_VERSION_H_ */
